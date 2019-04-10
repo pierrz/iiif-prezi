@@ -359,6 +359,8 @@ class ContentResource(BaseMetadataObject):
             full = {"@id": self.id, "@type": self.type}
             if self.label:
                 full['label'] = self.label
+            # if self.description:
+            #     full['description'] = self.description
         else:
             full = self
 
@@ -418,13 +420,15 @@ class Collection(BaseMetadataObject):
             # Add in only @id, @type, label
             for c in json['collections']:
                 newcolls.append(
-                    {"@id": c.id, '@type': 'sc:Collection', 'label': c.label})
+                    {"@id": c.id, '@type': 'sc:Manifest', 'label': c.label})
+                    # {"@id": c.id, '@type': 'sc:Manifest', 'label': c.label, 'description': c.description})
             json['collections'] = newcolls
         if 'manifests' in json:
             # Add in only @id, @type, label
             for c in json['manifests']:
                 newmans.append(
                     {"@id": c.id, '@type': 'sc:Manifest', 'label': c.label})
+                    # {"@id": c.id, '@type': 'sc:Manifest', 'label': c.label, 'description': c.description})
             json['manifests'] = newmans
         return json
 

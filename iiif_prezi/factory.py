@@ -745,13 +745,17 @@ class BaseMetadataObject(object):
         elif ((isinstance(instance, BaseMetadataObject) and typ is None) or
               (typ is not None and isinstance(instance, typ))):
             if minimal:
-                return {'@id': instance.id, '@type': instance._type, 'label': instance.label}
+                # For extended collection manifests
+                # return {'@id': instance.id, '@type': instance._type, 'label': instance.label}
+                return {'@id': instance.id, '@type': instance._type, 'label': instance.label, 'description': instance.description}
             else:
                 return instance.toJSON(False)
         elif (type(instance) == dict and
               (('@type' in instance and instance['@type'] == typ._type) or typ is None)):
             if minimal:
-                return {'@id': instance['@id'], '@type': instance['@type'], 'label': instance['label']}
+                # For extended collection manifests
+                # return {'@id': instance.id, '@type': instance._type, 'label': instance.label}
+                return {'@id': instance.id, '@type': instance._type, 'label': instance.label, 'description': instance.description}
             else:
                 return instance
         elif type(instance) == dict:
@@ -822,6 +826,8 @@ class ContentResource(BaseMetadataObject):
             full = OrderedDict([("@id", self.id), ("@type", self.type)])
             if self.label:
                 full['label'] = self.label
+            # if self.description:
+            #     full['description'] = self.description
         else:
             full = self
 
